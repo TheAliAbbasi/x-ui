@@ -1,7 +1,7 @@
 package database
 
 import (
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"io/fs"
@@ -66,7 +66,8 @@ func InitDB(dbPath string) error {
 	c := &gorm.Config{
 		Logger: gormLogger,
 	}
-	db, err = gorm.Open(sqlite.Open(dbPath), c)
+	dsn := os.Getenv("MYSQL_DSN")
+	db, err = gorm.Open(mysql.Open(dsn), c)
 	if err != nil {
 		return err
 	}
